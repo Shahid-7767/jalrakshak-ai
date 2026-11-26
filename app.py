@@ -18,6 +18,31 @@ RAIN_RUNOFF = 0.0004         # fraction of tank capacity gained per mm of rain (
 
 st.set_page_config(page_title="JalRakshak AI", page_icon="💧", layout="wide")
 
+st.markdown(
+    """
+    <style>
+    html, body, [class*="css"] { font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+    .block-container { padding-top: 1.5rem; padding-bottom: 2rem; max-width: 1300px; }
+    h1, h2, h3 { color: #0b3c6e; }
+    [data-testid="stSidebar"] { background: #0b2545; }
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span { color: #e6f0ff !important; }
+    div[data-testid="stMetric"] {
+        background: #eef6ff; border: 1px solid #cfe6ff; border-radius: 12px;
+        padding: 14px 16px; box-shadow: 0 1px 3px rgba(11, 60, 110, 0.08);
+    }
+    div[data-testid="stMetricValue"] { color: #0b3c6e; }
+    .jal-banner {
+        background: linear-gradient(90deg, #0b3c6e, #1e88e5); color: white;
+        padding: 18px 24px; border-radius: 14px; margin-bottom: 18px;
+    }
+    .jal-banner h2 { color: white; margin: 0; }
+    .jal-banner p { margin: 4px 0 0 0; opacity: 0.9; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # ---------------------------------------------------------------- database
 @st.cache_resource
@@ -473,6 +498,11 @@ def main():
     page = st.sidebar.radio("Go to", list(PAGES))
     v = villages[villages["id"] == vid].iloc[0].to_dict()
     df = load_daily(vid)
+    st.markdown(
+        '<div class="jal-banner"><h2>JalRakshak AI</h2>'
+        '<p>Intelligent Rural Water Management · Sample data for demonstration</p></div>',
+        unsafe_allow_html=True,
+    )
     PAGES[page](conn, v, df, villages)
 
 
