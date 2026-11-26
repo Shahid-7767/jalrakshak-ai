@@ -38,6 +38,8 @@ st.markdown(
     }
     .jal-banner h2 { color: white; margin: 0; }
     .jal-banner p { margin: 4px 0 0 0; opacity: 0.9; }
+    #MainMenu, footer, header { visibility: hidden; }
+    h3 { margin-top: 1.2rem; padding-bottom: 4px; border-bottom: 2px solid #e3f0ff; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -192,7 +194,18 @@ def page_dashboard(conn, v, df, villages):
     c = st.columns(3)
     c[0].metric("Households", int(v["households"]))
     c[1].metric("Availability", f"{s['pct']:.1f}%")
-    c[2].metric("Status", s["status"])
+    colors = {
+        "Critical": ("#c62828", "#ffebee"),
+        "Warning": ("#b26a00", "#fff4d6"),
+        "Normal": ("#2e7d32", "#e8f5e9"),
+    }
+    fg, bg = colors[s["status"]]
+    c[2].markdown(
+        f'<div style="font-size:0.85rem;color:#555;">Status</div>'
+        f'<span style="display:inline-block;margin-top:6px;background:{bg};color:{fg};'
+        f'padding:6px 16px;border-radius:20px;font-weight:600;">{s["status"]}</span>',
+        unsafe_allow_html=True,
+    )
 
     left, right = st.columns([1, 2])
     with left:
